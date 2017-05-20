@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>自行车-缩小版</title>
+	<style>
+		body{ background: #f5f5f5; }
+		@keyframes bike{
+			45%{transform: rotateY(0deg);}
+			50%{left: 800px; transform: rotateY(180deg);}
+			95%{transform: rotateY(180deg);}
+			100%{left: 0;transform: rotate(0deg);} 
+		}
+		.bicycle{
+			position: relative;
+			left: 0;
+			width: 300px;
+			height: 160px;
+			margin: 100px auto 0 50px;
+			animation: bike 10s linear infinite;
+		}
+		.frame{
+			position: relative;
+			width: 200px;
+			height: 110px;
+			margin: 0 auto;
+			z-index: 3;
+		}
+		.hander,.l-hander1:after{
+			content: '';
+			position: absolute;
+			width: 4px;
+			background: #559999;
+			border-radius: 5px;
+			transform-origin: bottom;
+		}
+		.r-hander{
+			bottom: 9px; right: 2px;
+			height: 110px;
+			transform: rotate(-20deg);
+		}
+		.l-hander1{
+			bottom: 5px; left: 3px;
+			height: 80px;
+			transform: rotate(45deg);
+		}
+		.l-hander2{
+			bottom: 6px;left: 3px;
+			height: 88px;
+			transform: rotate(90deg);
+		}
+		.l-hander1:after{
+			top: -110px;left: 0;
+			height: 112px;
+			transform: rotate(28deg);
+		}
+		.l-hander2 .s-hander{
+			top: -110px; left: 0;
+			height: 112px;
+			transform: rotate(-45deg);
+		}
+		.s-hander .kettle{
+			position: absolute;
+			top: 35px; left: -13px;
+			width: 10px; height: 25px;
+			border: 2px solid #559999;
+			background: #DDEEEE;
+		}
+		.kettle:before{
+			content: '';
+			position: absolute;
+			top: 20px;
+			width: 100%; height: 2px;
+			background: #559999;
+		}
+		.kettle:after{
+			content: '';
+			position: absolute;
+			top: -4px; left: 3px;
+			width: 6px; height: 4px;
+			background: #559999;
+		}
+		.m-hander1{
+			bottom: 5px; left: 90px;
+			height: 110px;
+			transform: rotate(-30deg);
+		}
+		.m-hander1:after{
+			content: '';
+			position: absolute;
+			left: 50%;
+			width: 50px;
+			height: 12px;
+			margin-left: -20px;
+			border-radius: 40px 340px 340px 40px / 40px 60px 30px 40px;
+			background: #666;
+			transform: rotate(24deg);
+		}
+		.crankset{
+			position: absolute;
+			bottom: -10px; left: 73px;
+			width: 30px; height: 30px;
+			border: 3px solid #666;
+			border-radius: 100%;
+			animation: bicycle 4s linear infinite;
+		}
+		.crankset > i{
+			position: absolute;
+			top: -5px; left: 12px;
+			width: 3px; height: 3px;
+			background: #666;
+			transform-origin: 3px 20px;
+		}
+		.crankset > i:nth-child(2){transform: rotate(18deg);}
+		.crankset > i:nth-child(3){transform: rotate(36deg);}
+		.crankset > i:nth-child(4){transform: rotate(54deg);}
+		.crankset > i:nth-child(5){transform: rotate(72deg);}
+		.crankset > i:nth-child(6){transform: rotate(90deg);}
+		.crankset > i:nth-child(7){transform: rotate(108deg);}
+		.crankset > i:nth-child(8){transform: rotate(126deg);}
+		.crankset > i:nth-child(9){transform: rotate(144deg);}
+		.crankset > i:nth-child(10){transform: rotate(162deg);}
+		.crankset > i:nth-child(11){transform: rotate(180deg);}
+		.crankset > i:nth-child(12){transform: rotate(198deg);}
+		.crankset > i:nth-child(13){transform: rotate(216deg);}
+		.crankset > i:nth-child(14){transform: rotate(234deg);}
+		.crankset > i:nth-child(15){transform: rotate(252deg);}
+		.crankset > i:nth-child(16){transform: rotate(270deg);}
+		.crankset > i:nth-child(17){transform: rotate(288deg);}
+		.crankset > i:nth-child(18){transform: rotate(306deg);}
+		.crankset > i:nth-child(19){transform: rotate(324deg);}
+		.crankset > i:nth-child(20){transform: rotate(342deg);}
+		.crankset .dish{
+			position: absolute;
+			left: 0; top: 0; right: 0; bottom: 0;
+			width: 5px; height:5px;
+			margin: auto;
+			border: 2px solid #fff;
+			border-radius: 100%;
+			box-shadow: 0 0 0 4px #666;
+			background: #666;
+		}
+		.dish > i{
+			position: absolute;
+			top: -16px; left: 1px;
+			width: 4px; height: 11px;
+			background: #666;
+			transform-origin: center 19px;
+		}
+		.dish .long{
+			top: -34px;
+			height: 30px;
+			transform-origin: center 37px;
+		}
+		.dish .long:after{
+			content: '';
+			position: absolute;
+			top: -3px; left: -8px;
+			width: 20px; height: 4px;
+			background: inherit;
+			animation: dish 4s linear infinite;
+		}
+		.dish > i:nth-child(2){transform: rotate(60deg);}
+		.dish > i:nth-child(3){transform: rotate(120deg);}
+		.dish > i:nth-child(4){transform: rotate(180deg);}
+		.dish > i:nth-child(5){transform: rotate(240deg);}
+		.dish > i:nth-child(6){transform: rotate(300deg);}
+		.chain{
+			position: absolute;
+			height: 3px;
+			transform-origin: left;
+			background: linear-gradient(90deg,#666 3px,transparent 0);
+			background-size: 6px 6px;
+		}
+		.chain1{
+			left: 3px;
+			bottom: 10px;
+			width: 85px;
+			transform: rotate(-10deg);
+			animation: chain1 4s linear infinite;
+		}
+		.chain2{
+			left: -2px;
+			width: 91px;
+			bottom: -7px;
+			transform: rotate(3deg);
+			animation: chain2 4s linear infinite;
+		}
+		.head{
+			position: absolute;
+			top: -10px; right: -3px;
+			width: 24px;
+			height: 24px;
+			border: 4px solid #666;
+			border-left: 4px solid transparent;
+			border-bottom: 4px solid transparent;
+			border-radius: 100%;
+			transform: rotate(65deg);
+		}
+		.head:after{
+			content: '';
+			position: absolute;
+			top: -4px;left: -36px;
+			width: 40px;
+			height: 4px;
+			border-radius: 4px;
+			background: #559999;
+			transform-origin: right;
+			transform: rotate(-74deg);
+		}
+		.wheel{
+			position: absolute;
+			bottom: 0;
+			width: 100px;
+			height: 100px;
+			border: 3px solid #F4995B;
+			border-radius: 100%;
+			box-shadow: 0 0 0 3px #fff,0 0 0 6px #aaa;
+			z-index: 2;
+			animation: bicycle 2s linear infinite;
+		}
+		.wheel:before{
+			content: '';
+			position: absolute;
+			left: 0; top: 0; right: 0;  bottom: 0;
+			width: 4px; height: 4px;
+			padding: 3px;
+			margin: auto;
+			border: 3px solid #666;
+			border-radius: 20px;
+			background: #666;
+			background-clip: content-box;
+			z-index: 2;
+		}
+		.l-wheel{left: 0;}
+		.r-wheel{right: 0;}
+		.wheel i{
+			position: absolute;
+			top: -8px;left: 50%;
+			width: 1px; height: 50px;
+			background: #ccc;
+			transform-origin: center 57px;
+			z-index: 1;
+		}
+		.wheel > i:nth-child(2){transform: rotate(30deg);}
+		.wheel > i:nth-child(3){transform: rotate(60deg);}
+		.wheel > i:nth-child(4){transform: rotate(90deg);}
+		.wheel > i:nth-child(5){transform: rotate(120deg);}
+		.wheel > i:nth-child(6){transform: rotate(150deg);}
+		.wheel > i:nth-child(7){transform: rotate(180deg);}
+		.wheel > i:nth-child(8){transform: rotate(210deg);}
+		.wheel > i:nth-child(9){transform: rotate(240deg);}
+		.wheel > i:nth-child(10){transform: rotate(270deg);}
+		.wheel > i:nth-child(11){transform: rotate(300deg);}
+		.wheel > i:nth-child(12){transform: rotate(330deg);}
+		.s-crankset{
+			position: absolute;
+			left: 0; top: 0; right: 0;  bottom: 0;
+			width: 16px; height: 16px;
+			margin: auto;
+			border-radius: 15px;
+			z-index: 3;
+		}
+		.s-crankset > i{
+			position: absolute;
+			top: -2px; left: 6px;
+			width: 3px; height: 3px;
+			background: #666;
+			transform-origin: center 10px;
+		}
+		.s-crankset > i:nth-child(2){transform: rotate(40deg);}
+		.s-crankset > i:nth-child(3){transform: rotate(80deg);}
+		.s-crankset > i:nth-child(4){transform: rotate(120deg);}
+		.s-crankset > i:nth-child(5){transform: rotate(160deg);}
+		.s-crankset > i:nth-child(6){transform: rotate(200deg);}
+		.s-crankset > i:nth-child(7){transform: rotate(240deg);}
+		.s-crankset > i:nth-child(8){transform: rotate(280deg);}
+		.s-crankset > i:nth-child(9){transform: rotate(320deg);}
+		@keyframes bicycle{ to{ transform: rotate(1turn); } }
+		@keyframes dish{ to{ transform: rotate(-1turn); } }
+		@keyframes chain1{ to{ background-position: 100%; } }
+		@keyframes chain2{ to{ background-position: -100%; } }
+	</style>
+</head>
+<body>
+	<div class="bicycle">
+		<div class="frame">
+			<div class="head"></div>
+			<div class="hander l-hander1"></div>
+			<div class="hander l-hander2">
+				<div class="hander s-hander">
+					<div class="kettle"></div>
+				</div>
+			</div>
+			<div class="hander m-hander1"></div>
+			<div class="hander r-hander"></div>
+			<div class="crankset">
+				<div class="dish">
+					<i class="long"></i><i></i><i></i>
+					<i class="long"></i><i></i><i></i>
+				</div>
+				<i></i><i></i><i></i><i></i><i></i>
+				<i></i><i></i><i></i><i></i><i></i>
+				<i></i><i></i><i></i><i></i><i></i>
+				<i></i><i></i><i></i><i></i><i></i>
+			</div>
+			<div class="chain chain1"></div>
+			<div class="chain chain2"></div>
+		</div>
+		<div class="wheel l-wheel">
+			<i></i><i></i><i></i><i></i><i></i><i></i>
+			<i></i><i></i><i></i><i></i><i></i><i></i>
+			<div class="s-crankset">
+				<i></i><i></i><i></i><i></i>
+				<i></i><i></i><i></i><i></i><i></i>
+			</div>
+		</div>
+		<div class="wheel r-wheel">
+			<i></i><i></i><i></i><i></i><i></i><i></i>
+			<i></i><i></i><i></i><i></i><i></i><i></i>
+		</div>
+	</div>
+</body>
+</html>

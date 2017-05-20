@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Canvas - 滤镜</title>
+	<style>
+		body { 
+			text-align: center; 
+			font-size: 16px;
+			background: #f1f1f1;
+		}
+		.btn-group { 
+			max-width: 500px;
+			margin: 20px auto; 
+		}
+		.btn-group a {
+			display: inline-block;
+			padding: 5px 10px;
+			margin: 10px;
+			color: #fff;
+			border-bottom: 2px solid rgba(0, 0, 0, .5); 
+			border-radius: 5px;
+			cursor: pointer;
+			background: skyblue;
+		}
+	</style>
+</head>
+<body>
+	<img src="./images/head_120.png" alt="">
+	<canvas id="gray" width="120" height="120"></canvas>
+	<div><span class="time">处理耗时：0ms</span></div>
+	<div class="btn-group">
+		<a data-value='black'>黑白滤镜</a>
+		<a data-value='red'>红色滤镜</a>
+		<a data-value='green'>绿色滤镜</a>
+		<a data-value='blue'>蓝色滤镜</a>
+		<a data-value='gray'>灰度滤镜</a>
+		<a data-value='history'>怀旧滤镜</a>
+		<a data-value='reverse'>反色滤镜</a>
+		<a data-value='grave'>浮雕滤镜</a>
+		<a data-value='light'>增加亮度</a>
+		<a data-value='dark'>减少亮度</a>
+	</div>
+
+	<script>
+		window.onload = function() {
+			var grayImg = document.querySelector("#gray");
+			var ctx = grayImg.getContext("2d");
+			var img = document.images[0];
+			ctx.drawImage(img, 0, 0);
+
+			/**
+			 * [滤镜函数]
+			 * @param  {[type]} t [滤镜类型]
+			 * @param  {[type]} x [要取数据的画面区域 x 坐标]
+			 * @param  {[type]} y [要取数据的画面区域 y 坐标]
+			 * @param  {[type]} w [画面区域的宽度]
+			 * @param  {[type]} h [画面区域的高度]
+			 * @param  {[type]} a [透明度]
+			 */
+			function dealImage (t, x, y, w, h, a) {
+				var imageData = ctx.getImageData(x, y, w, h);
+					data = imageData.data;
+
+				// 滤镜算法
+				var Deal = (function() {
+					var method = {
+						'default': function(i) {
+							return method['black'](i);
+						},
+						'red': function(i) {
+							data[i + 1] = 0;
+							data[i + 2] = 0;
+							data[i + 3] = a;
+						},
+						'green': function(i) {
+							data[i] = 0;
+							data[i + 2] = 0;
+							data[i + 3] = a;
+						},
+						'blue': function(i) {
+							data[i] = 0;
+							data[i + 1] = 0;
+							data[i + 3] = a;
+						},
+						'black': function(i) {
+							var tmp = parseInt((data[i] + data[i + 1] + data[i + 2]) / 3);
+							data[i] = data[i + 1] = data[i + 2] = tmp;
+						},
+						'gray': function(i) {
+							var tmp = data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.144;
+							data[i] = data[i + 1] = data[i + 2] = tmp;
+						},
+						'light': function(i) {
+							data[i] += 40;
+							data[i + 1] += 40;
+							data[i + 2] += 40;
+							data[i + 3] = a;
+						},
+						'dark': function(i) {
+							data[i] -= 40;
+							data[i + 1] -= 40;
+							data[i + 2] -= 40;
+							data[i + 3] = a;
+						},
+						'history': function(i) {
+							var dr = 0.393 * data[i] + 0.769 * data[i + 1] + 0.189 * data[i + 2];
+							var dg = 0.349 * data[i] + 0.686 * data[i + 1] + 0.168 * data[i + 2];
+							var db = 0.393 * data[i] + 0.769 * data[i + 1] + 0.189 * data[i + 2];
+							var scale = Math.random() * 0.5 + 0.5;
+							data[i] = scale * dr + (1 - scale) * data[i];
+							scale = Math.random() * 0.5 + 0.5;
+							data[i + 1] = scale * dg + (1 - scale) * data[i + 1];
+							scale = Math.random() * 0.5 + 0.5;
+							data[i + 2] = scale * db + (1 - scale) * data[i + 2];
+						},
+						'reverse': function(i) {
+							data[i] = 255 - data[i];
+							data[i + 1] = 255 - data[i + 1];
+							data[i + 2] = 255 - data[i + 2];
+						},
+						'grave': function(i) {
+							var length = data.length;
+							var width = imageData.width;
+							// 判断是否还有下一行
+							if (i <= length - 4 * width) {
+								if ((i + 1) % 4 !== 0) {
+									// 当右边已经没有像素点时
+									if((i + 4) % (width * 4) === 0) {
+										data[i] = data[i - 4];
+										data[i + 1] = data[i - 3];
+										data[i + 2] = data[i - 2];
+										data[i + 3] = data[i - 1];
+									} else {
+										data[i] = 128 + data[i] - data[i + 4];
+										data[i + 1] = 128 + data[i + 1] - data[i + 5];
+										data[i + 2] = 128 + data[i + 2] - data[i + 6];
+										data[i + 3] = 128 + data[i + 3] - data[i + 7];
+									}	
+								} 
+							} else {
+								if ((i + 1) % 4 !== 0) {
+									data[i] = data[i - width * 4];
+									data[i + 1] = data[i + 1 - width * 4];
+									data[i + 2] = data[i + 2 - width * 4];
+									data[i + 3] = data[i + 3 - width * 4];
+								}
+							}
+						}
+					};
+					return function(type) {
+						return method[type] || method['default'];
+					};
+				}());
+
+				// 迭代器处理数据
+				function eachData(fn) {
+					for (var i = 0, len = data.length; i < len; i += 4) {
+						fn(i);
+					}
+				}
+
+				// 计算处理耗时
+				var time = new Date();
+				eachData(Deal(t));
+				time = new Date() - time;
+				ctx.putImageData(imageData, x, y);
+				return time;
+			}
+
+			var btns = document.querySelector('.btn-group');
+			var info = document.querySelector('.time');
+			btns.onclick = function(e) {
+				e = e || windwo.event;
+				ctx.drawImage(img, 0, 0);
+				var type = e.target.dataset['value'];
+				var time = dealImage(type, 0, 0, 120, 120, 255);
+				info.innerHTML = '耗时：' + time + 'ms';
+			};
+		};
+	</script>
+</body>
+</html>

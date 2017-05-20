@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>各种进度条</title>
+	<style>
+		body{margin: 0;padding: 0;background: #45B0F3;}
+		.box{
+			position:relative;
+			width:300px;
+			cursor: pointer;
+			margin: 40px auto;
+		}
+		.num{
+			display: none;
+			position: absolute;
+			line-height: 20px;
+			padding: 0 5px;
+			font-size: 12px;
+			font-weight: bolder;
+			color: #fff;
+			background: inherit;
+			background-clip: border-box;
+		}
+		.num::selection{color: #fff;}  /*兼容ie浏览器*/
+		.round-btn{
+			position: absolute;
+			top: -3px; left: 107px;
+			width: 16px; height: 16px;
+			border: 5px solid rgba(255,255,255,.6);
+			border-radius: 100%;
+			box-shadow: 0 0 5px rgba(0,0,0,.5);
+			background: #58a;
+			z-index: 99;
+			cursor: pointer;
+		}
+		.rect-btn{
+			position: absolute;
+			top: -5px; left: 145px;
+			width: 6px; height: 16px;
+			border: 2px solid rgba(255,255,255,.6);
+			box-shadow: 0 0 3px rgba(0,0,0,.5);
+			background: #fb3;
+			z-index: 99;
+			cursor: pointer;
+		}
+		.arrow-btn{
+			position: absolute;
+			top: -5px; left: 175px;
+			width: 10px; height: 22px;
+			background: #65a;
+			background-clip: content-box;
+			filter: drop-shadow(0 0 5px rgba(0,0,0,.3));
+			z-index: 99;
+			cursor: pointer;
+		}
+		.arrow-btn:after{
+			content: '';
+			position: absolute;
+			top: -10px; left: 0;
+			width: 0; height: 0;
+			border: 5px solid transparent;
+			border-bottom-color: #65a; 
+		}
+		/*水平进度条开始*/
+		@keyframes toright{to{width: 110%;}}
+		.bar1{
+			position: relative;
+			width: 300px;
+			height: 20px;
+			margin: 40px auto;
+			border-radius: 10px;
+			background: rgba(0,0,0,.6);
+			overflow: hidden;
+		}
+		.bar1:after{
+			content: '';
+			position: absolute;
+			top: 0; left: 0;
+			width: 0; height: 100%;
+			background: yellowgreen;
+			background-image: repeating-linear-gradient(-45deg,transparent 0,transparent 10px,rgba(255,255,255,.6) 0,rgba(255,255,255,.6) 20px);
+			animation: toright 10s linear infinite;
+		}
+		/*斜向条纹背景*/
+		.bar2{
+			position: relative;
+			height: 20px;
+			border-radius: 10px;
+			background: rgba(0,0,0,.6);
+			overflow: hidden;
+		}
+		.bar2 span{
+			position: absolute;
+			top: 0; left: 0;
+			width: 120px; height: 100%;
+			background: #58a;
+			background-image: repeating-linear-gradient(-45deg,transparent 0,transparent 10px,rgba(255,255,255,.6) 0,rgba(255,255,255,.6) 20px);
+		}
+		/*方形按钮*/
+		.bar3{
+			position: relative;
+			height: 10px;
+			background: rgba(0,0,0,.6);
+			overflow: hidden;
+		}
+		.bar3 span{
+			position: absolute;
+			top: 0; left: 0;
+			width: 150px; height: 100%;
+			background: #fb3;
+		}
+		/*箭头按钮*/
+		.bar4{
+			position: relative;
+			height: 10px;
+			background: rgba(0,0,0,.6);
+			overflow: hidden;
+		}
+		.bar4 span{
+			position: absolute;
+			top: 0; left: 0;
+			width: 180px; height: 100%;
+			background: #65a;
+		}
+		/*水平进度条结束*/
+		/*垂直进度条开始*/
+		@keyframes totop{to{height: 110%;}}
+		.container{text-align: center;}
+		.container>div{
+			display: inline-block;
+			margin: 20px 30px;
+			vertical-align: middle;
+		}
+		.box1{
+			position:relative;
+			width: 10px;
+			height:100px;
+			cursor: pointer;
+		}
+		.v-rect-btn{
+			position: absolute;
+			left: -5px; bottom: 35px;
+			width: 16px; height: 6px;
+			border: 2px solid rgba(255,255,255,.6);
+			box-shadow: 0 0 3px rgba(0,0,0,.5);
+			background: #ab3;
+			z-index: 99;
+			cursor: pointer;
+		}
+		.bar5{
+			position: relative;
+			width: 20px;
+			height: 100px;
+			border-radius: 10px;
+			background: rgba(0,0,0,.6);
+			overflow: hidden;
+		}
+		.bar5:after{
+			content: '';
+			position: absolute;
+			bottom: 0; left: 0;
+			width: 100%; height: 0;
+			background: #4af;
+			background-image: repeating-linear-gradient(-45deg,transparent 0,transparent 5px,rgba(255,255,255,.6) 0,rgba(255,255,255,.6) 10px);
+			animation: totop 5s linear infinite;
+		}
+		.bar6{
+			position: relative;
+			height: 100%;
+			background: rgba(0,0,0,.6);
+			overflow: hidden;
+		}
+		.bar6 span{
+			position: absolute;
+			bottom: 0; left: 0;
+			width: 100%; height: 40px;
+			background: #ab3;
+		}
+		/*垂直进度条结束*/
+		/*圆形进度条开始*/
+		@keyframes toround{
+			to{ transform: rotate(180deg);}
+		}
+		@keyframes bg{
+			50%{ background: #FF4527 }
+		}
+		.btn-group{
+			position: absolute;
+			top: 0;left: 0;bottom: 0;right: 0;
+			width: 80px; height: 80px;
+			margin: auto;
+			border-radius: 50%;
+			background: #e0e0e0;
+			z-index: 1;
+			overflow: hidden;
+		}
+		.btn-group .cut,.btn-group .add{
+			position: relative;
+			float: left;
+			width: 50%;
+			height: 100%;
+			cursor: pointer;
+			color: #666;
+		}
+		.cut:hover,.add:hover{color: #FF4527;}
+		.disable{color: #ccc;}
+		.cut:after,.add:after,.add:before{
+			content: "";
+			position: absolute;
+			top: 0;left: 0;bottom: 0;right: 0;
+			width: 16px; height: 0;
+			margin: auto;
+			border-top: 4px solid;
+		}
+		.add:before{
+			width: 0; height: 16px;
+			border-top: none;
+			border-left: 4px solid;
+		}
+		.bar7{
+			position: relative;
+			width: 100px;
+			height: 100px;
+			border-radius: 50%;
+			background: linear-gradient(90deg,#333 50%,#FF4527 0);
+		}
+		.bar7:before{
+			content: '';
+			position: absolute;
+			top: 0; left: 50%;
+			width: 50%; height: 100%;
+			background: #333;
+			z-index: 0;
+			border-radius: 0 100% 100% 0 / 50%;
+			transform-origin: left;
+			animation: toround 50s linear infinite,
+					   bg 100s step-end infinite;
+			animation-play-state: paused;
+			animation-delay: inherit;
+		}
+		/*炫酷进度条*/
+		@keyframes promove{
+			10% { width: 90px; }
+			15% { width: 90px; }
+			25% { 
+				width: 120px;
+				animation-timing-function: ease-out; 
+			}
+			40% { 
+				width: 240px;
+				animation-timing-function: ease-in;
+			}
+			100% { width: 240px; }
+		}
+		@keyframes nummove{
+			10% { 
+				left: 60px; 
+				transform: rotate(-10deg);
+			}
+			11%	{transform: rotate(-12deg);}
+			13%	{
+				transform: rotate(5deg);
+				transition: cubic-bezier(.1,.25,1,.25);
+			}
+			15%	{
+				left: 60px;
+				transform: rotate(0deg);
+			}
+			25% { 
+				left: 90px;
+				transform: rotate(-6deg);
+				animation-timing-function: ease-out;  
+			}
+			30% { transform: rotate(-12deg); }
+			40% { 
+				left: 210px;
+				transform: rotate(5deg);
+				transition: cubic-bezier(.1,.25,1,.25);
+				animation-timing-function: ease-in;  
+			}
+			45% { transform: rotate(0deg);}
+			85% { transform: rotate(0deg);}
+			90% { transform: rotate(15deg);}
+			100% {
+				left: 210px; 
+			 	transform: rotate(15deg);
+			}
+		}
+		.box8{
+			position: relative;
+			width: 500px;
+			margin: 60px auto 40px;
+		}
+		.bar8{
+			position: relative;
+			width: 500px;
+			height: 10px;
+			border-radius: 5px;
+			background: rgba(0,0,0,.6);
+			overflow: hidden;
+		}
+		.bar8 .pro{
+			position: absolute;
+			top: 0; left: 0;
+			width: 0;height: 100%;
+			border-radius: inherit;
+			background: #fff;
+			animation: promove 8s infinite; 
+		}
+		.box8 .panel{
+			position: absolute;
+			top: -38px; left: -20px;
+			width: 60px; height: 30px;
+			border-radius: 5px;
+			background: #fff;
+			filter: drop-shadow(0 0 2px rgba(0,0,0,.4));
+			transform-origin: 50% calc(100% + 8px);
+			animation: nummove 8s infinite; 
+		}
+		.box8 .panel p{
+			margin: 0;
+			font: normal 16px "微软雅黑";
+			line-height: 30px;
+			text-align: center;
+			color: #333;
+		}
+		.box8 .panel .failed{
+			font-weight: bold;
+			color: #DD4E42;
+		}
+		.box8 .panel .arrow{
+			content: '';
+			position: absolute;
+			bottom: -6px; left: 50%;
+			margin-left: -10px;
+			width: 20px; height: 12px;
+			border-radius: 50% / 0 0 100% 100%;
+			z-index: 0;
+			overflow: hidden;
+		}
+		.box8 .panel .arrow:after{
+			content: '';
+			position: absolute;
+			top: 6px; left: 50%;
+			width: 0; height: 0;
+			margin-left: -8px;
+			border-top: 8px solid #fff;
+			border-left: 8px solid transparent;
+			border-bottom: 6px solid transparent;
+			border-right: 8px solid transparent;
+		}
+	</style>
+</head>
+<body>
+	<!-- 水平进度条 -->
+	<div class="bar1"></div>
+	<div class="box" id="box">
+		<div class="bar2"><span></span></div>
+		<a class="round-btn"></a>
+	</div>
+	<div class="box" id="box1">
+		<div class="bar3"><span></span></div>
+		<a class="rect-btn"><p class="num"></p></a>
+	</div>
+	<div class="box" id="box2">
+		<div class="bar4"><span></span></div>
+		<a class="arrow-btn"><p class="num"></p></a>
+	</div>
+	<div class="box8" id="box8">
+		<div class="bar8">
+			<div class="pro" id="bar8"><i class="hole"></i></div>
+		</div>
+		<div class="panel">
+			<p></p>
+			<span class="arrow"></span>
+		</div>
+	</div>
+	<!-- 垂直进度条 -->
+	<div class="container">
+		<div class="bar5"></div>
+		<div class="box1" id="box3">
+			<div class="bar6"><span></span></div>
+			<a class="v-rect-btn"><p class="num"></p></a>
+		</div>
+	</div>
+	<!-- 圆形进度条 -->
+	<div class="container">
+		<div class="bar7" style="animation-delay: -10s;" id="bar7">
+			<div class="btn-group">
+				<a class="cut" id="cut"></a>
+				<a class="add" id="add"></a>
+			</div>
+		</div>
+	</div>
+	<!-- 进度条脚本 -->
+	<script src="js/progress.js"></script>
+	<script>
+		var box = document.getElementById("box");
+		var box1 = document.getElementById("box1");
+		var box2 = document.getElementById("box2");
+		var box3 = document.getElementById("box3");
+		progressBar(box);		
+		progressBar(box1);		
+		progressBar(box2,true);		
+		progressBar(box3,false);		
+	</script>
+	<!-- 圆形进度条 -->
+	<script>
+		var bar7 = document.getElementById("bar7");
+		var cut = document.getElementById("cut");
+		var add = document.getElementById("add");
+		var num = bar7.getAttribute("style").match(/\d+/)*-1;
+		cut.onclick = function(){
+			if(num<0){
+				num++;
+				bar7.setAttribute("style","animation-delay: "+num+"s");
+			}
+		};
+		add.onclick = function(){
+			if(num>=-100){
+				num--;
+				bar7.setAttribute("style","animation-delay: "+num+"s");
+			}
+		};
+	</script>
+	<!-- 炫酷进度条 -->
+	<script>
+		var flag =0;
+		var box8 = document.getElementById("box8");
+		var pro = document.getElementById("bar8");;
+		var panel = box8.getElementsByTagName("div")[2];
+		var info = panel.getElementsByTagName("p")[0];
+		var time = setInterval("change()",50);
+
+		function change(){
+			var percent = (pro.offsetWidth / box8.offsetWidth);
+			if(pro.offsetWidth == 240){
+				flag++;
+				if(flag==1){
+					setTimeout(function(){
+						info.innerHTML = "Failed";
+						info.className = "failed";
+					},3200);
+				}
+			}else{
+				flag = 0;
+				info.className = "";
+				info.innerHTML = (Math.ceil(percent * 100) + "%");
+			}
+		}
+	</script>
+</body>
+</html>

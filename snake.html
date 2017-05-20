@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>贪吃蛇</title>
+	<style>
+		body{
+			margin: 0;
+			font-size: 18px;
+			font-weight: bold;
+			color: #fff;
+			text-align: center;
+			background: #2ECC71;
+		}
+		/*上方信息*/
+		.control{
+			width: 1000px;
+			height: 40px;
+			margin: 20px auto 10px;
+		}
+		.control .score{
+			width: 100px;
+			line-height: 40px;
+			border-radius: 10px;
+			background: #27AE60;
+		}
+		.control .delay-btn{
+			float: right;
+			width: 80px;
+			line-height: 40px;
+			border-radius: 10px;
+			background: #E74C3C;
+			cursor: pointer;
+		}
+		.control .delay-btn:hover{ background: #CC392B; }
+		/*主要容器*/
+		.container{
+			position: relative;
+			width: 1000px;
+			height: 480px;
+			margin: 0 auto 20px;
+			background: #fff;
+		}
+		/*开始菜单*/
+		.menu{
+			position: absolute;
+			top: 0; left: 0; right: 0; bottom: 0;
+			background: #2EAA71;
+			z-index: 2;
+			overflow: hidden;
+			transform: scale(1);
+			transition: all .6s;
+		}
+		.menu .btn-group{
+			position: absolute;
+			top: 50%; left: 0; right: 0;
+			width: 120px;
+			margin: auto;
+			transform: translateY(-50%);
+		}
+		.btn-group .btn{
+			display: block;
+			line-height: 40px;
+			margin: 40px 0;
+			border-radius: 10px;
+			background: #F39C12;
+			cursor: pointer;
+			border-bottom: .2em solid rgba(0,0,0,.5);
+		}
+		.btn-group .btn:hover{
+			border-bottom: .1em solid rgba(0,0,0,0);
+			border-top: .1em solid rgba(0,0,0,.5);
+		}
+		/*游戏盒子*/
+		.game{
+			position: absolute;
+			top: 0; left: 0; right: 0; bottom: 0;
+			background: #655;
+			z-index: 1;
+		}
+		.main{ height: 100%; }
+		.snake{
+			position: absolute;
+			width: 20px; height: 20px;
+			border-radius: 100%;
+			background: #2ECC71;
+			transition: all .6s;
+		}
+		.main .snake:first-child{ background: #fb3; }
+		.eat .snake{
+			width: 18px; height: 18px;
+			border: 1px solid rgba(0,0,0,.6);
+			background: #FF3;
+		}
+		.eat .snake:before{
+			content: '';
+			position: absolute;
+			top: 0; left: 0; right: 0; bottom: 0;
+			width: 6px; height: 6px;
+			border: inherit;
+			margin: auto;
+		}
+		.hinder .brick{
+			position: absolute;
+			width: 18px; height: 18px;
+			border: 1px solid rgba(255,255,255,.6);
+			background: #CC392B;
+		}
+		/*结束菜单*/
+		.result,.tip{
+			position: absolute;
+			top: 0; left: 0; right: 0; bottom: 0;
+			width: 440px; height: 140px;
+			margin: auto;
+			padding: 30px;
+			border-radius: 20px;
+			background: #2ECC71;
+			z-index: 3;
+			transform: scale(0);
+			transition: all 1s;
+		}
+		.result p{
+			font-size: 24px;
+			margin: 30px auto;
+		}
+		.result .btn{
+			display: inline-block;
+			width: 100px;
+			line-height: 40px;
+			margin: 0 20px;
+			border-radius: 10px;
+			background: #F39C12;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<div class="control">
+		<div class="delay-btn" id="delay">暂停</div>
+		<div class="score" id="scorebox">0</div>
+	</div>
+	
+	<div class="container">
+		<div class="menu" id="menu">
+			<div class="btn-group">
+				<a class="btn" id="start">开始游戏</a>
+				<a class="btn" id="tip">游戏简介</a>
+			</div>
+			<div class="tip" id="tipbox">
+				<p>按下WASD键分别控制小蛇上下左右的移动</p>
+				<p>按住空格键不放加速，松开不再加速</p>
+				<p>再次点击即可关闭该提示，如有BUG，欢迎指正</p>
+			</div>	
+		</div>
+		<div class="game">
+			<div class="main" id="mainbox"></div>
+			<div class="eat" id="eatbox"></div>
+			<div class="hinder" id="hinderbox"></div>
+		</div>
+		<div class="result" id="result">
+			<p></p>
+			<a class="btn" id="end">退出游戏</a>
+			<a class="btn" id="restart">重新开始</a>
+		</div>
+	</div>
+	<script src="js/snake.js"></script>
+	<script>
+		var config = new Config();
+		
+		config.gameModule.mainBox =  document.getElementById('mainbox');
+		config.gameModule.eatBox = document.getElementById('eatbox');
+		config.gameModule.hinderBox = document.getElementById('hinderbox');
+		config.gameModule.scoreBox = document.getElementById('scorebox');
+		config.gameModule.resultBox = document.getElementById('result');
+		config.gameModule.resultInfo = config.gameModule.resultBox.children[0];
+		config.gameModule.startBtn = document.getElementById('start');
+		config.gameModule.delayBtn = document.getElementById('delay');
+		config.gameModule.endBtn = document.getElementById('end');
+		config.gameModule.restartBtn = document.getElementById('restart');
+
+		config.pageModule.menu = document.getElementById('menu');
+		config.pageModule.tipBox = document.getElementById('tipbox');
+		config.pageModule.tipBtn = document.getElementById('tip');
+
+		config.btnEvent();
+	</script>
+</body>
+</html>
