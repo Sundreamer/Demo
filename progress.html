@@ -402,8 +402,8 @@
 		var box3 = document.getElementById("box3");
 		progressBar(box);		
 		progressBar(box1);		
-		progressBar(box2,true);		
-		progressBar(box3,false);		
+		progressBar(box2, true);		
+		progressBar(box3, false);		
 	</script>
 	<!-- 圆形进度条 -->
 	<script>
@@ -412,15 +412,15 @@
 		var add = document.getElementById("add");
 		var num = bar7.getAttribute("style").match(/\d+/)*-1;
 		cut.onclick = function(){
-			if(num<0){
+			if(num < 0){
 				num++;
-				bar7.setAttribute("style","animation-delay: "+num+"s");
+				bar7.setAttribute("style","animation-delay: " + num + "s");
 			}
 		};
 		add.onclick = function(){
-			if(num>=-100){
+			if(num >= -100){
 				num--;
-				bar7.setAttribute("style","animation-delay: "+num+"s");
+				bar7.setAttribute("style","animation-delay: " + num + "s");
 			}
 		};
 	</script>
@@ -437,7 +437,7 @@
 			var percent = (pro.offsetWidth / box8.offsetWidth);
 			if(pro.offsetWidth == 240){
 				flag++;
-				if(flag==1){
+				if(flag == 1){
 					setTimeout(function(){
 						info.innerHTML = "Failed";
 						info.className = "failed";
